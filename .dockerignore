@@ -1,0 +1,55 @@
+# Node.js
+node_modules
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Go
+vendor/
+*.test
+*.prof
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Docker
+.dockerignore
+Dockerfile
+docker-compose*.yml
+
+# Kubernetes
+kubernetes/
+scripts/
+evidence/
+
+# Application specific
+.env
+mongodb.key
+bin/
+tmp/
+
+# Ignore the existing docker-compose files
+docker-compose.yaml
+
+# Build artifacts
+much-to-do
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Test files
+*.test
+coverage.out

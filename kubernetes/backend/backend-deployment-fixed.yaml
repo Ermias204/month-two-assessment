@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: muchtodo-backend
+  namespace: muchtodo
+  labels:
+    app: muchtodo-backend
+    component: backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: muchtodo-backend
+      component: backend
+  template:
+    metadata:
+      labels:
+        app: muchtodo-backend
+        component: backend
+    spec:
+      containers:
+      - name: muchtodo-backend
+        image: muchtodo-backend:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+        env:
+        - name: PORT
+          value: "8080"
+        - name: MONGO_URI
+          value: "mongodb://admin:secret123@mongodb:27017"
+        - name: DB_NAME
+          value: "much_todo_db"
+        - name: JWT_SECRET_KEY
+          value: "your-super-secret-key-that-is-long-and-random"
+        - name: JWT_EXPIRATION_HOURS
+          value: "72"
+        - name: LOG_LEVEL
+          value: "DEBUG"
+        - name: LOG_FORMAT
+          value: "json"
+        - name: ENABLE_CACHE
+          value: "false"
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "250m"
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 20
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 15
+          timeoutSeconds: 5
+          failureThreshold: 3
